@@ -2,6 +2,26 @@
 
 A full-stack interactive web application for managing cryptocurrency and PayPal payments with wallet functionality.
 
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Quick Start](#quick-start)
+- [Installation](#installation)
+- [API Endpoints](#api-endpoints)
+- [Usage](#usage)
+- [Features Demo](#features-demo)
+- [Security Notes](#security-notes)
+- [Development](#development)
+- [License](#license)
+- [Contributing](#contributing)
+- [Support](#support)
+
+---
+
 ## Features
 
 ### 💰 Multi-Currency Wallet
@@ -38,6 +58,8 @@ A full-stack interactive web application for managing cryptocurrency and PayPal 
 - **Vite** - Build tool and dev server
 - **CSS3** - Modern styling with gradients
 
+---
+
 ## Project Structure
 
 ```
@@ -61,6 +83,36 @@ TCW1/
 │   └── vite.config.ts
 └── README.md
 ```
+
+---
+
+## Quick Start
+
+Get up and running in 3 simple steps:
+
+1. **Install dependencies**
+   ```bash
+   # Backend
+   cd backend && npm install
+   
+   # Frontend (in a new terminal)
+   cd frontend && npm install
+   ```
+
+2. **Start the servers**
+   ```bash
+   # Backend (from backend directory)
+   npm run dev
+   
+   # Frontend (from frontend directory, in a new terminal)
+   npm run dev
+   ```
+
+3. **Open your browser**
+   - Navigate to `http://localhost:3000`
+   - Select a user from the dropdown and start making transactions!
+
+---
 
 ## Installation
 
@@ -100,6 +152,8 @@ npm run dev
 
 The app will be available at `http://localhost:3000`
 
+---
+
 ## API Endpoints
 
 ### Wallet Endpoints
@@ -114,6 +168,8 @@ The app will be available at `http://localhost:3000`
 - `POST /api/paypal/create` - Create PayPal payment
 - `POST /api/paypal/verify/:paymentId` - Verify PayPal payment
 
+---
+
 ## Usage
 
 1. **Select a User** - Choose from the dropdown (user-001, user-002, user-003)
@@ -121,6 +177,8 @@ The app will be available at `http://localhost:3000`
 3. **Send Payment** - Transfer funds to another user ID
 4. **View Balance** - See your current balance for all currencies
 5. **Check History** - Review all your transactions
+
+---
 
 ## Features Demo
 
@@ -146,6 +204,8 @@ The app will be available at `http://localhost:3000`
 - Status badges (completed/pending/failed)
 - Timestamp and transaction details
 
+---
+
 ## Security Notes
 
 ⚠️ **This is a demonstration application**
@@ -161,6 +221,8 @@ For production use, implement:
 - Environment variable security
 - Transaction verification
 - Blockchain confirmations
+
+---
 
 ## Development
 
@@ -180,13 +242,19 @@ npm run build
 npm run preview
 ```
 
+---
+
 ## License
 
 MIT
 
+---
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
 
 ## Support
 
