@@ -158,15 +158,15 @@ Once you're in the project folder, you should see two main folders:
 ### Prerequisites
 
 Before you begin, ensure you have the following installed:
+- **Git** (for cloning the repository)
 - **Node.js** (version 18.0.0 or higher)
 - **npm** (comes with Node.js)
-- **Git** (for cloning the repository)
 
 You can verify your installations by running:
 ```bash
+git --version   # Should output your Git version
 node --version  # Should output v18.0.0 or higher
 npm --version   # Should output a version number
-git --version   # Should output your Git version
 ```
 
 ### Getting the Project
