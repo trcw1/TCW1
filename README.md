@@ -196,7 +196,7 @@ The app will be available at `http://localhost:3000`
 4. **View Balance** - See your current balance for all currencies
 5. **Check History** - Review all your transactions
 
-> **💡 Tip:** Try opening the app in multiple browser tabs or windows with different user IDs to test sending payments between users in real-time!
+> **💡 Tip:** Try opening the app in multiple browser tabs or windows and select different users (e.g., user-001 in one tab, user-002 in another) to test sending payments between users in real-time!
 
 ---
 
