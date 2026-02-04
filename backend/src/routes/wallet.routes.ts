@@ -50,7 +50,12 @@ router.post('/:userId/deposit', (req: Request, res: Response) => {
       return res.status(400).json({ error: 'Invalid currency or amount' });
     }
 
-    const success = walletService.addFunds(userId, currency, amount);
+    const validCurrencies = ['BTC', 'USDT', 'ETH', 'PAYPAL'];
+    if (!validCurrencies.includes(currency)) {
+      return res.status(400).json({ error: 'Invalid currency type' });
+    }
+
+    const success = walletService.addFunds(userId, currency as 'BTC' | 'USDT' | 'ETH' | 'PAYPAL', amount);
     
     if (!success) {
       return res.status(400).json({ error: 'Failed to add funds' });
@@ -59,7 +64,7 @@ router.post('/:userId/deposit', (req: Request, res: Response) => {
     const wallet = walletService.getWallet(userId);
     res.json({
       success: true,
-      balance: wallet?.balances[currency],
+      balance: wallet?.balances[currency as 'BTC' | 'USDT' | 'ETH' | 'PAYPAL'],
       message: `Added ${amount} ${currency} to wallet`,
     });
   } catch (error: any) {

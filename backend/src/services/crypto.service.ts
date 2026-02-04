@@ -5,9 +5,9 @@ export class CryptoService {
   // Generate Bitcoin address (simplified for demo)
   generateBitcoinAddress(): string {
     try {
-      const keyPair = bitcoin.ECPair.makeRandom();
-      const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
-      return address || 'demo-btc-address';
+      // For demo purposes, generate a mock address
+      // In production, use proper key management
+      return `1${Math.random().toString(36).substring(2, 15).toUpperCase()}`;
     } catch (error) {
       // Fallback for demo purposes
       return `1${Math.random().toString(36).substring(2, 15)}`;
