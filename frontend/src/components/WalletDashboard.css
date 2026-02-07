@@ -1,4 +1,4 @@
-.wallet-dashboard {
+﻿.wallet-dashboard {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
@@ -12,11 +12,11 @@
 .wallet-header h2 {
   font-size: 2rem;
   margin-bottom: 10px;
-  color: #333;
+  color: #FFD700;
 }
 
 .user-id {
-  color: #666;
+  color: #CCCCCC;
   font-size: 0.9rem;
 }
 
@@ -28,32 +28,34 @@
 }
 
 .balance-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #000000;
   border-radius: 15px;
   padding: 25px;
   color: white;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
   transition: transform 0.3s ease;
+  border: 2px solid #FFD700;
 }
 
 .balance-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
 }
 
 .balance-card:nth-child(1) {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border-color: #FFD700;
 }
 
 .balance-card:nth-child(2) {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  border-color: #CCCCCC;
 }
 
 .balance-card:nth-child(3) {
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  border-color: #FFD700;
 }
 
 .balance-card:nth-child(4) {
-  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  border-color: #CCCCCC;
 }
 
 .currency-icon {
@@ -84,18 +86,20 @@
 }
 
 .btn-refresh {
-  background: #667eea;
-  color: white;
+  background: #FFD700;
+  color: #000000;
   border: none;
   padding: 12px 30px;
   font-size: 1rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
+  font-weight: 600;
 }
 
 .btn-refresh:hover {
-  background: #5568d3;
+  background: #FFFFFF;
+  transform: scale(1.05);
 }
 
 .loading,
@@ -103,8 +107,9 @@
   text-align: center;
   padding: 40px;
   font-size: 1.2rem;
+  color: #CCCCCC;
 }
 
 .error {
-  color: #e74c3c;
+  color: #ff4444;
 }

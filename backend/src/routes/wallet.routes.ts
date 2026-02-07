@@ -59,7 +59,7 @@ router.post('/:userId/deposit', (req: Request, res: Response) => {
     const wallet = walletService.getWallet(userId);
     res.json({
       success: true,
-      balance: wallet?.balances[currency],
+      balance: wallet?.balances[currency as keyof typeof wallet.balances],
       message: `Added ${amount} ${currency} to wallet`,
     });
   } catch (error: any) {

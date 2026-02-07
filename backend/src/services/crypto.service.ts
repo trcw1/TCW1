@@ -1,17 +1,16 @@
-import * as bitcoin from 'bitcoinjs-lib';
+﻿import * as bitcoin from 'bitcoinjs-lib';
 import { ethers } from 'ethers';
 
 export class CryptoService {
   // Generate Bitcoin address (simplified for demo)
   generateBitcoinAddress(): string {
-    try {
-      const keyPair = bitcoin.ECPair.makeRandom();
-      const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey });
-      return address || 'demo-btc-address';
-    } catch (error) {
-      // Fallback for demo purposes
-      return `1${Math.random().toString(36).substring(2, 15)}`;
+    // Generate a demo Bitcoin address (testnet format)
+    const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+    let address = '1'; // P2PKH mainnet addresses start with 1
+    for (let i = 0; i < 33; i++) {
+      address += chars.charAt(Math.floor(Math.random() * chars.length));
     }
+    return address;
   }
 
   // Generate Ethereum address (for ETH and USDT-ERC20)

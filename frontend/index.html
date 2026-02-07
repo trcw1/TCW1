@@ -7,6 +7,10 @@
     <title>TCW1 - Payment Wallet</title>
   </head>
   <body>
+    <script>
+      // Polyfill for Node.js 'global' - required by simple-peer/randombytes
+      window.global = window;
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

@@ -1,0 +1,329 @@
+.crypto-chart-container {
+  padding: 30px;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.05) 0%, rgba(255, 165, 0, 0.05) 100%);
+  border-radius: 20px;
+  margin: 20px 0;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.chart-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.chart-title {
+  font-size: 2rem;
+  color: #FFD700;
+  margin: 0;
+  font-weight: 700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  letter-spacing: 0.05em;
+  animation: slideDownFadeIn 0.6s ease-out;
+}
+
+.chart-subtitle {
+  color: #AAAAAA;
+  font-size: 1rem;
+  margin: 10px 0 0 0;
+  animation: slideDownFadeIn 0.8s ease-out;
+}
+
+.crypto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.crypto-card {
+  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+  border: 2px solid transparent;
+  border-image: linear-gradient(135deg, #FFD700, #FFA500) 1;
+  border-radius: 16px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 8px 32px rgba(255, 215, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.crypto-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.crypto-card:hover::before {
+  opacity: 1;
+}
+
+.crypto-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  border-image: linear-gradient(135deg, #00FF00, #FFD700) 1;
+  box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3);
+}
+
+.crypto-card.animate-pulse {
+  animation: pulseBorder 0.6s ease;
+}
+
+@keyframes pulseBorder {
+  0% {
+    box-shadow: 0 8px 32px rgba(255, 215, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 8px 40px rgba(0, 255, 0, 0.5);
+  }
+  100% {
+    box-shadow: 0 8px 32px rgba(255, 215, 0, 0.15);
+  }
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.crypto-icon-circle {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.crypto-icon {
+  color: #000;
+  font-weight: bold;
+}
+
+.crypto-info {
+  flex: 1;
+}
+
+.crypto-name {
+  font-size: 1.1rem;
+  color: #FFFFFF;
+  margin: 0;
+  font-weight: 600;
+}
+
+.crypto-symbol {
+  color: #FFD700;
+  font-size: 0.85rem;
+  margin: 5px 0 0 0;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.price-change {
+  padding: 6px 12px;
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  border-radius: 8px;
+  color: #00DD00;
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-width: 80px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.price-change.negative {
+  background: rgba(255, 68, 68, 0.1);
+  border-color: rgba(255, 68, 68, 0.3);
+  color: #FF5555;
+}
+
+.card-body {
+  margin-bottom: 20px;
+}
+
+.price-section {
+  margin-bottom: 20px;
+}
+
+.price-label {
+  color: #888;
+  font-size: 0.85rem;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.price-value {
+  font-size: 1.8rem;
+  color: #FFD700;
+  margin: 0;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+  animation: slideInUp 0.6s ease-out;
+}
+
+.sparkline {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.2));
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  background: rgba(255, 215, 0, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid #FFD700;
+}
+
+.stat-label {
+  color: #888;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.stat-value {
+  color: #FFD700;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.stat-value.green {
+  color: #00FF00;
+}
+
+.stat-value.red {
+  color: #FF5555;
+}
+
+.card-footer {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 10px;
+}
+
+.buy-btn {
+  padding: 10px;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.buy-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
+.buy-btn:active {
+  transform: scale(0.95);
+}
+
+.info-btn {
+  padding: 10px;
+  background: transparent;
+  color: #FFD700;
+  border: 1px solid #FFD700;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.info-btn:hover {
+  background: rgba(255, 215, 0, 0.1);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+/* Animations */
+@keyframes slideDownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .crypto-chart-container {
+    padding: 20px;
+  }
+
+  .chart-title {
+    font-size: 1.5rem;
+  }
+
+  .crypto-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .crypto-card:hover {
+    transform: translateY(-8px);
+  }
+}
