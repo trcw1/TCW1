@@ -3,8 +3,10 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import mongoose from 'mongoose';
 import walletRoutes from './routes/wallet.routes';
 import paypalRoutes from './routes/paypal.routes';
+import authRoutes from './routes/auth.routes';
 
 // Load environment variables
 dotenv.config();
@@ -18,6 +20,17 @@ const io = new Server(httpServer, {
     methods: ['GET', 'POST']
   }
 });
+
+// MongoDB Connection
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/tcw1';
+mongoose.connect(MONGODB_URI)
+  .then(() => {
+    console.log('?? MongoDB connected successfully');
+  })
+  .catch((error) => {
+    console.error('?? MongoDB connection failed:', error.message);
+    // Continue running even if MongoDB fails (will use in-memory storage for some features)
+  });
 
 // Middleware
 app.use(cors());
@@ -36,6 +49,7 @@ app.get('/health', (req: Request, res: Response) => {
 });
 
 // API Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/wallet', walletRoutes);
 app.use('/api/paypal', paypalRoutes);
 
@@ -46,6 +60,7 @@ app.get('/', (req: Request, res: Response) => {
     version: '1.0.0',
     endpoints: {
       health: '/health',
+      auth: '/api/auth',
       wallet: '/api/wallet',
       paypal: '/api/paypal',
     },
@@ -139,6 +154,7 @@ httpServer.listen(PORT, () => {
   console.log(`?? API available at http://localhost:${PORT}`);
   console.log(`?? Supported currencies: BTC, USDT, ETH, PayPal`);
   console.log(`?? WebSocket server ready for messaging & video calls`);
+  console.log(`?? Authentication available at /api/auth`);
 });
 
 export default app;
