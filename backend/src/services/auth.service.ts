@@ -15,6 +15,7 @@ export interface AuthResponse {
     email: string;
     firstName?: string;
     lastName?: string;
+    isAdmin?: boolean;
     twoFactorEnabled: boolean;
   };
   token?: string;
@@ -59,6 +60,7 @@ class AuthService {
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
+          isAdmin: user.isAdmin,
           twoFactorEnabled: user.twoFactorEnabled
         },
         token
@@ -109,6 +111,7 @@ class AuthService {
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
+          isAdmin: user.isAdmin,
           twoFactorEnabled: user.twoFactorEnabled
         },
         token
@@ -151,6 +154,7 @@ class AuthService {
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
+          isAdmin: user.isAdmin,
           twoFactorEnabled: user.twoFactorEnabled
         }
       };
@@ -192,6 +196,7 @@ class AuthService {
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
+          isAdmin: user.isAdmin,
           twoFactorEnabled: user.twoFactorEnabled
         }
       };
@@ -224,6 +229,7 @@ class AuthService {
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
+          isAdmin: user.isAdmin,
           twoFactorEnabled: user.twoFactorEnabled
         }
       };
@@ -256,6 +262,60 @@ class AuthService {
       };
     } catch (error: any) {
       return { success: false, message: error.message || 'Password change failed' };
+    }
+  }
+
+  async adminLogin(email: string, password: string, totpToken?: string): Promise<AuthResponse> {
+    try {
+      const user = await User.findOne({ email: email.toLowerCase() });
+
+      if (!user || !(await bcrypt.compare(password, user.password))) {
+        return { success: false, message: 'Invalid credentials' };
+      }
+
+      if (!user.isAdmin) {
+        return { success: false, message: 'Admin access required' };
+      }
+
+      // Check 2FA if enabled
+      if (user.twoFactorEnabled) {
+        if (!totpToken) {
+          return { success: false, message: '2FA_REQUIRED' };
+        }
+
+        const isValidToken = speakeasy.totp.verify({
+          secret: user.twoFactorSecret!,
+          encoding: 'base32',
+          token: totpToken,
+          window: 2
+        });
+
+        if (!isValidToken) {
+          return { success: false, message: 'Invalid 2FA token' };
+        }
+      }
+
+      // Update last login
+      user.lastLogin = new Date();
+      await user.save();
+
+      const token = this.generateToken(user._id.toString());
+
+      return {
+        success: true,
+        message: 'Admin login successful',
+        user: {
+          id: user._id.toString(),
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          isAdmin: user.isAdmin,
+          twoFactorEnabled: user.twoFactorEnabled
+        },
+        token
+      };
+    } catch (error: any) {
+      return { success: false, message: error.message || 'Admin login failed' };
     }
   }
 

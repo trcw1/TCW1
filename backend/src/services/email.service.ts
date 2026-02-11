@@ -15,7 +15,7 @@ interface EmailOptions {
   text?: string;
 }
 
-class EmailService {
+class EmailServiceClass {
   async send(options: EmailOptions): Promise<boolean> {
     try {
       if (!SENDGRID_API_KEY) {
@@ -175,4 +175,4 @@ class EmailService {
   }
 }
 
-export const EmailService = new EmailService();
+export const EmailService = new EmailServiceClass();

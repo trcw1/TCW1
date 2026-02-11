@@ -6,6 +6,7 @@ export interface IUser extends Document {
   firstName?: string;
   lastName?: string;
   phone?: string;
+  isAdmin: boolean;
   twoFactorEnabled: boolean;
   twoFactorSecret?: string;
   backupCodes: string[];
@@ -40,6 +41,10 @@ const UserSchema = new Schema<IUser>(
     phone: {
       type: String,
       trim: true
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false
     },
     twoFactorEnabled: {
       type: Boolean,

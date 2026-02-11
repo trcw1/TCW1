@@ -28,6 +28,18 @@ router.post('/login', async (req: Request, res: Response) => {
   res.status(result.success ? 200 : 401).json(result);
 });
 
+// Admin Login
+router.post('/admin/login', async (req: Request, res: Response) => {
+  const { email, password, totpToken } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ success: false, message: 'Email and password required' });
+  }
+
+  const result = await authService.adminLogin(email, password, totpToken);
+  res.status(result.success ? 200 : 401).json(result);
+});
+
 // Setup 2FA
 router.post('/2fa/setup', authMiddleware, async (req: AuthRequest, res: Response) => {
   if (!req.userId) {
