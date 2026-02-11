@@ -29,6 +29,7 @@
   text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
   font-weight: 700;
   letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .signup-subtitle {
@@ -157,6 +158,23 @@
 
 .signup-footer {
   text-align: center;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: #FFD700;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.link-button:hover {
+  color: #FFFFFF;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
 }
 
 .disclaimer {

@@ -20,11 +20,13 @@ import './App.css';
 interface Friend {
   id: string;
   name?: string;
+  email?: string;
   phone?: string;
 }
 
 function App() {
   const { showToast } = useToast();
+  const navigate = useNavigate();
   const [isLoggedIn] = useState(() => {
     // Check if user is already logged in from localStorage
     return !!localStorage.getItem('tcw1_user');
@@ -36,11 +38,12 @@ function App() {
   const [chatRecipient, setChatRecipient] = useState('');
   const [callRecipient, setCallRecipient] = useState('');
   const [activeMenu, setActiveMenu] = useState<
-    'wallet' | 'receive' | 'send' | 'history' | 'chat' | 'video' | 'settings' | 'profile' | 'exchange' | 'notifications' | 'help' | 'admin' | null
+    'wallet' | 'receive' | 'send' | 'history' | 'chat' | 'video' | 'settings' | 'exchange' | 'notifications' | 'help' | 'admin' | null
   >(null);
   const [friends, setFriends] = useState<Friend[]>([]);
   const [newFriendId, setNewFriendId] = useState('');
   const [newFriendName, setNewFriendName] = useState('');
+  const [newFriendEmail, setNewFriendEmail] = useState('');
   const [newFriendPhone, setNewFriendPhone] = useState('');
   const [payRecipient, setPayRecipient] = useState('');
   const [payAmount, setPayAmount] = useState('');
@@ -49,6 +52,11 @@ function App() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showTransactionModal, setShowTransactionModal] = useState(false);
   const [transactionLoading, setTransactionLoading] = useState(false);
+  const [profileName, setProfileName] = useState('');
+  const [profileStatus, setProfileStatus] = useState('Available');
+  const [profileAvatar, setProfileAvatar] = useState<string | null>(null);
+  const [profileGallery, setProfileGallery] = useState<string[]>([]);
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
 
   const handleTransactionSuccess = () => {
     // Trigger refresh of wallet and transactions
@@ -66,7 +74,7 @@ function App() {
   };
 
   const toggleMenu = (
-    key: 'wallet' | 'receive' | 'send' | 'history' | 'chat' | 'video' | 'settings' | 'profile' | 'exchange' | 'notifications' | 'help' | 'admin'
+    key: 'wallet' | 'receive' | 'send' | 'history' | 'chat' | 'video' | 'settings' | 'exchange' | 'notifications' | 'help' | 'admin'
   ) => {
     setActiveMenu(prev => (prev === key ? null : key));
   };
@@ -86,27 +94,98 @@ function App() {
     localStorage.setItem('tcw1_friends', JSON.stringify(friends));
   }, [friends]);
 
+  useEffect(() => {
+    const storedProfile = localStorage.getItem('tcw1_profile');
+    if (storedProfile) {
+      try {
+        const parsed = JSON.parse(storedProfile);
+        setProfileName(parsed.name || '');
+        setProfileStatus(parsed.status || 'Available');
+        setProfileAvatar(parsed.avatar || null);
+        setProfileGallery(Array.isArray(parsed.gallery) ? parsed.gallery : []);
+      } catch {
+        // ignore invalid stored profile
+      }
+    } else {
+      const storedUser = localStorage.getItem('tcw1_user');
+      if (storedUser) {
+        try {
+          const parsedUser = JSON.parse(storedUser);
+          setProfileName(parsedUser.firstName || parsedUser.username || parsedUser.email || '');
+        } catch {
+          // ignore invalid stored user
+        }
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      'tcw1_profile',
+      JSON.stringify({
+        name: profileName,
+        status: profileStatus,
+        avatar: profileAvatar,
+        gallery: profileGallery,
+      })
+    );
+  }, [profileName, profileStatus, profileAvatar, profileGallery]);
+
   const addFriend = () => {
     const trimmedId = newFriendId.trim();
-    if (!trimmedId) {
-      showToast('Please enter a user ID', 'warning');
+    const trimmedEmail = newFriendEmail.trim();
+    const trimmedPhone = newFriendPhone.trim();
+    const friendKey = trimmedEmail || trimmedPhone || trimmedId;
+    if (!friendKey) {
+      showToast('Enter an email, phone number, or user ID', 'warning');
       return;
     }
-    if (friends.some(friend => friend.id === trimmedId)) {
+    if (friends.some(friend => friend.id === friendKey)) {
       showToast('Friend already exists.', 'info');
       return;
     }
 
     const newFriend: Friend = {
-      id: trimmedId,
+      id: friendKey,
       name: newFriendName.trim() || undefined,
-      phone: newFriendPhone.trim() || undefined,
+      email: trimmedEmail || undefined,
+      phone: trimmedPhone || undefined,
     };
     setFriends(prev => [...prev, newFriend]);
     setNewFriendId('');
     setNewFriendName('');
+    setNewFriendEmail('');
     setNewFriendPhone('');
-    showToast(`Added ${newFriendName || trimmedId} as a friend ✓`, 'success');
+    showToast(`Added ${newFriendName || friendKey} as a friend ✓`, 'success');
+  };
+  const handleProfileAvatarChange = (file?: File) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      setProfileAvatar(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleAddGalleryImage = (file?: File) => {
+    if (!file) return;
+    if (profileGallery.length >= 4) {
+      showToast('You can add up to 4 gallery photos.', 'warning');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setProfileGallery(prev => [...prev, reader.result as string]);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleRemoveGalleryImage = (index: number) => {
+    setProfileGallery(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleLogout = () => {
+    navigate('/logout');
   };
 
   const removeFriend = (id: string) => {
@@ -258,13 +337,6 @@ function App() {
             <span className="sidebar-text">Settings</span>
           </button>
           <button
-            className={`sidebar-item ${activeMenu === 'profile' ? 'active' : ''}`}
-            onClick={() => { toggleMenu('profile'); setShowSidebar(false); }}
-          >
-            <span className="sidebar-icon">👤</span>
-            <span className="sidebar-text">Profile</span>
-          </button>
-          <button
             className={`sidebar-item ${activeMenu === 'exchange' ? 'active' : ''}`}
             onClick={() => { toggleMenu('exchange'); setShowSidebar(false); }}
           >
@@ -335,10 +407,97 @@ function App() {
         {(activeMenu === 'chat' || activeMenu === 'video') && (
           <section className="feature-panel">
             <div className="panel-content">
+              {activeMenu === 'chat' && (
+                <div className="profile-panel">
+                  <div className="profile-card">
+                    <div className="profile-avatar">
+                      {profileAvatar ? (
+                        <img src={profileAvatar} alt="Profile" />
+                      ) : (
+                        <div className="profile-placeholder">👤</div>
+                      )}
+                      {isEditingProfile && (
+                        <label className="profile-upload">
+                          Change
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleProfileAvatarChange(e.target.files?.[0])}
+                          />
+                        </label>
+                      )}
+                    </div>
+                    <div className="profile-info">
+                      {isEditingProfile ? (
+                        <>
+                          <input
+                            type="text"
+                            value={profileName}
+                            onChange={(e) => setProfileName(e.target.value)}
+                            placeholder="Your name"
+                          />
+                          <input
+                            type="text"
+                            value={profileStatus}
+                            onChange={(e) => setProfileStatus(e.target.value)}
+                            placeholder="Status"
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <h3>{profileName || 'Your Profile'}</h3>
+                          <p>{profileStatus}</p>
+                        </>
+                      )}
+                      <div className="profile-actions">
+                        <button
+                          className="primary-btn"
+                          onClick={() => setIsEditingProfile(prev => !prev)}
+                        >
+                          {isEditingProfile ? 'Save Profile' : 'Edit Profile'}
+                        </button>
+                        <button className="ghost-btn" onClick={handleLogout}>Sign Out</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="profile-gallery">
+                    <div className="gallery-header">
+                      <h4>Photo Gallery</h4>
+                      <span>{profileGallery.length}/4</span>
+                    </div>
+                    <div className="gallery-grid">
+                      {profileGallery.map((photo, index) => (
+                        <div key={index} className="gallery-item">
+                          <img src={photo} alt={`Gallery ${index + 1}`} />
+                          <button
+                            type="button"
+                            className="remove-photo"
+                            onClick={() => handleRemoveGalleryImage(index)}
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))}
+                      {profileGallery.length < 4 && (
+                        <label className="gallery-upload">
+                          <span>+ Add photo</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleAddGalleryImage(e.target.files?.[0])}
+                          />
+                        </label>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div className="friends-panel">
                 <div className="friends-header">
                   <h3>Friends</h3>
-                  <p>Add friends with user ID or phone number.</p>
+                  <p>Add friends by email, phone number, or user ID.</p>
                 </div>
 
                 <div className="friend-form">
@@ -349,10 +508,16 @@ function App() {
                     placeholder="Name (optional)"
                   />
                   <input
+                    type="email"
+                    value={newFriendEmail}
+                    onChange={(e) => setNewFriendEmail(e.target.value)}
+                    placeholder="Email (recommended)"
+                  />
+                  <input
                     type="text"
                     value={newFriendId}
                     onChange={(e) => setNewFriendId(e.target.value)}
-                    placeholder="User ID (required)"
+                    placeholder="User ID (optional)"
                   />
                   <input
                     type="tel"
@@ -372,9 +537,9 @@ function App() {
                     friends.map(friend => (
                       <div key={friend.id} className="friend-card">
                         <div className="friend-info">
-                          <div className="friend-name">{friend.name || friend.id}</div>
+                          <div className="friend-name">{friend.name || friend.email || friend.phone || friend.id}</div>
                           <div className="friend-meta">
-                            {friend.id}
+                            {friend.email ? friend.email : friend.id}
                             {friend.phone ? ` • ${friend.phone}` : ''}
                           </div>
                         </div>
@@ -519,29 +684,6 @@ function App() {
                   <label>Notifications</label>
                   <input type="checkbox" checked={true} readOnly />
                 </div>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {activeMenu === 'profile' && (
-          <section className="feature-panel">
-            <div className="panel-content">
-              <h3>👤 Profile</h3>
-              <div className="profile-section">
-                <div className="profile-item">
-                  <label>User ID:</label>
-                  <p>{userId}</p>
-                </div>
-                <div className="profile-item">
-                  <label>Account Status:</label>
-                  <p>Active</p>
-                </div>
-                <div className="profile-item">
-                  <label>Member Since:</label>
-                  <p>2024</p>
-                </div>
-                <button className="primary-btn">Edit Profile</button>
               </div>
             </div>
           </section>
