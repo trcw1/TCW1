@@ -16,19 +16,17 @@
 ## ✅ Phase 2: Local Preparation (5 min)
 
 ```bash
-# 1. Update frontend API URL
-cd frontend
-# Edit: src/services/api.ts
-# Change: http://localhost:3001 → https://api.yourdomain.com
-
-# 2. Update environment files
+# 1. Update environment files
 cp backend/.env.production.template backend/.env.production
 cp frontend/.env.production.template frontend/.env.production
 
-# 3. Edit both .env.production files with your values
+# 2. Edit both .env.production files with your values
 # - YOUR_DOMAIN
 # - MICROSFT_EMAIL
 # - APP_KEYS
+
+# Frontend API base URL (important for login/signup)
+# VITE_API_URL=https://api.yourdomain.com
 ```
 
 ---

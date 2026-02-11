@@ -197,6 +197,22 @@ Azure Portal → tcw1-backend → Configuration → CORS_ORIGIN
 App Service > Restart
 ```
 
+### Problem: "Login/Signup fails"
+```
+Check:
+1. Frontend VITE_API_URL points to your backend (e.g., https://api.yourdomain.com)
+2. Frontend is rebuilt/redeployed after changing VITE_API_URL
+3. API health endpoint works: https://api.yourdomain.com/health
+
+Fix:
+# Set correct VITE_API_URL
+Azure Portal → tcw1-frontend → Configuration → VITE_API_URL
+= https://api.yourdomain.com
+
+# Restart app
+App Service > Restart
+```
+
 ### Problem: "Can't reach api.yourdomain.com"
 ```
 Check:

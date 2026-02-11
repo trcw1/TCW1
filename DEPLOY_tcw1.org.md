@@ -88,6 +88,8 @@ VITE_ENVIRONMENT     = production
 VITE_SOCKET_IO_URL   = https://tcw1.org
 ```
 
+**After saving:** restart the frontend app so the new VITE_API_URL is applied.
+
 Click **Save** → Wait for restart
 
 ---
