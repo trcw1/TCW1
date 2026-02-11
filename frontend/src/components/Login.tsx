@@ -32,6 +32,7 @@ export const Login = ({ onLoginSuccess }: LoginProps) => {
         // Save token
         localStorage.setItem('tcw1_token', response.data.token);
         localStorage.setItem('tcw1_user', JSON.stringify(response.data.user));
+        localStorage.setItem('isAdmin', response.data.user.isAdmin ? 'true' : 'false');
         
         onLoginSuccess?.();
         navigate('/');

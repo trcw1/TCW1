@@ -3,6 +3,7 @@ import { WalletDashboard } from './components/WalletDashboard';
 import { SendPayment } from './components/SendPayment';
 import { ReceivePayment } from './components/ReceivePayment';
 import { TransactionHistory } from './components/TransactionHistory';
+import { AdminDashboard } from './components/AdminDashboard';
 import Chat from './components/Chat';
 import VideoCall from './components/VideoCall';
 import SignUp from './components/SignUp';
@@ -33,7 +34,7 @@ function App() {
   const [chatRecipient, setChatRecipient] = useState('');
   const [callRecipient, setCallRecipient] = useState('');
   const [activeMenu, setActiveMenu] = useState<
-    'wallet' | 'receive' | 'send' | 'history' | 'chat' | 'video' | 'settings' | 'profile' | 'exchange' | 'notifications' | 'help' | null
+    'wallet' | 'receive' | 'send' | 'history' | 'chat' | 'video' | 'settings' | 'profile' | 'exchange' | 'notifications' | 'help' | 'admin' | null
   >(null);
   const [friends, setFriends] = useState<Friend[]>([]);
   const [newFriendId, setNewFriendId] = useState('');
@@ -63,7 +64,7 @@ function App() {
   };
 
   const toggleMenu = (
-    key: 'wallet' | 'receive' | 'send' | 'history' | 'chat' | 'video' | 'settings' | 'profile' | 'exchange' | 'notifications' | 'help'
+    key: 'wallet' | 'receive' | 'send' | 'history' | 'chat' | 'video' | 'settings' | 'profile' | 'exchange' | 'notifications' | 'help' | 'admin'
   ) => {
     setActiveMenu(prev => (prev === key ? null : key));
   };
@@ -282,6 +283,15 @@ function App() {
             <span className="sidebar-icon">🔔</span>
             <span className="sidebar-text">Notifications</span>
           </button>
+          {localStorage.getItem('isAdmin') === 'true' && (
+            <button
+              className={`sidebar-item ${activeMenu === 'admin' ? 'active' : ''}`}
+              onClick={() => { toggleMenu('admin'); setShowSidebar(false); }}
+            >
+              <span className="sidebar-icon">⚙️</span>
+              <span className="sidebar-text">Admin Panel</span>
+            </button>
+          )}
           <button
             className={`sidebar-item ${activeMenu === 'help' ? 'active' : ''}`}
             onClick={() => { toggleMenu('help'); setShowSidebar(false); }}
@@ -587,6 +597,12 @@ function App() {
                 </div>
               </div>
             </div>
+          </section>
+        )}
+
+        {activeMenu === 'admin' && (
+          <section className="feature-panel">
+            <AdminDashboard />
           </section>
         )}
 

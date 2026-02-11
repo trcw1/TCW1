@@ -49,6 +49,7 @@ const SignUp = () => {
         // Save token and user
         localStorage.setItem('tcw1_token', response.data.token);
         localStorage.setItem('tcw1_user', JSON.stringify(response.data.user));
+        localStorage.setItem('isAdmin', response.data.user.isAdmin ? 'true' : 'false');
         navigate('/');
       } else {
         setError(response.data.message || 'Signup failed');
