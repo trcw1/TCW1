@@ -8,13 +8,13 @@
 }
 
 .signup-box {
-  background: #0b0b0b;
-  border: 2px solid #FFD700;
+  background: #111111;
+  border: 1px solid #222222;
   border-radius: 16px;
   padding: 40px;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
 }
 
 .signup-header {
@@ -26,7 +26,7 @@
   font-size: 2.5rem;
   color: #FFD700;
   margin: 0;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  text-shadow: none;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -57,7 +57,7 @@
   font-weight: 600;
   font-size: 0.9rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
 }
 
 .form-group input {
@@ -73,8 +73,8 @@
 .form-group input:focus {
   outline: none;
   border-color: #FFD700;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-  background: #1a1a1a;
+  box-shadow: none;
+  background: #151515;
 }
 
 .form-group input:disabled {
@@ -95,22 +95,22 @@
 
 .signup-btn {
   padding: 14px 20px;
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  background: #FFD700;
   color: #000000;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 6px 16px rgba(255, 215, 0, 0.2);
 }
 
 .signup-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(255, 215, 0, 0.3);
 }
 
 .signup-btn:disabled {
@@ -169,12 +169,11 @@
   font-weight: 600;
   cursor: pointer;
   text-decoration: underline;
-  transition: color 0.2s ease, text-shadow 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .link-button:hover {
   color: #FFFFFF;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
 }
 
 .disclaimer {

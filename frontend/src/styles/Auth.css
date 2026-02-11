@@ -3,22 +3,19 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: radial-gradient(circle at top, rgba(255, 215, 0, 0.15), transparent 55%),
-    radial-gradient(circle at bottom, rgba(255, 140, 0, 0.12), transparent 60%),
-    #050505;
+  background: #0b0b0b;
   padding: 20px;
 }
 
 .auth-card {
-  background: linear-gradient(145deg, rgba(12, 12, 12, 0.95), rgba(4, 4, 4, 0.92));
+  background: #111111;
   border-radius: 15px;
-  box-shadow: 0 12px 45px rgba(255, 215, 0, 0.18);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
   padding: 40px;
   width: 100%;
   max-width: 400px;
   animation: slideInUp 0.5s ease-out;
-  border: 1px solid rgba(255, 215, 0, 0.35);
-  backdrop-filter: blur(8px);
+  border: 1px solid #222222;
 }
 
 @keyframes slideInUp {
@@ -37,7 +34,7 @@
   margin-bottom: 30px;
   text-align: center;
   font-size: 24px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -52,7 +49,7 @@
   margin-bottom: 8px;
   font-size: 14px;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
 }
 
 .form-group input {
@@ -69,8 +66,8 @@
 .form-group input:focus {
   outline: none;
   border-color: #FFD700;
-  background: #141414;
-  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.15);
+  background: #151515;
+  box-shadow: none;
 }
 
 .form-group input:disabled {
@@ -98,7 +95,7 @@
 .auth-card button[type="submit"] {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(135deg, #FFD700 0%, #FFB347 100%);
+  background: #FFD700;
   color: #000000;
   border: none;
   border-radius: 8px;
@@ -108,12 +105,12 @@
   transition: all 0.3s ease;
   margin-top: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
 }
 
 .auth-card button[type="submit"]:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(255, 215, 0, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(255, 215, 0, 0.25);
 }
 
 .auth-card button[type="submit"]:disabled {
@@ -137,10 +134,9 @@
   font-weight: 600;
   cursor: pointer;
   text-decoration: underline;
-  transition: color 0.2s ease, text-shadow 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .link-button:hover {
   color: #FFFFFF;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
 }
