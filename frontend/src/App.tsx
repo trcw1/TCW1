@@ -7,6 +7,7 @@ import { AdminDashboard } from './components/AdminDashboard';
 import Chat from './components/Chat';
 import VideoCall from './components/VideoCall';
 import SignUp from './components/SignUp';
+import Login from './components/Login';
 import CryptoChart from './components/CryptoChart';
 import Modal from './components/Modal';
 import Loading from './components/Loading';
@@ -47,6 +48,7 @@ function App() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showTransactionModal, setShowTransactionModal] = useState(false);
   const [transactionLoading, setTransactionLoading] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
 
   const handleTransactionSuccess = () => {
     // Trigger refresh of wallet and transactions
@@ -143,9 +145,38 @@ function App() {
     setIsLoggedIn(true);
   };
 
-  // Show sign up page if not logged in
+  // Show auth page if not logged in
   if (!isLoggedIn) {
-    return <SignUp onSignUp={handleSignUp} />;
+    return (
+      <div className="auth-wrapper">
+        <div className="auth-toggle">
+          <button
+            className={authMode === 'login' ? 'active' : ''}
+            onClick={() => setAuthMode('login')}
+          >
+            Login
+          </button>
+          <button
+            className={authMode === 'signup' ? 'active' : ''}
+            onClick={() => setAuthMode('signup')}
+          >
+            Sign Up
+          </button>
+        </div>
+
+        {authMode === 'login' ? (
+          <Login
+            onLoginSuccess={() => setIsLoggedIn(true)}
+            onShowSignUp={() => setAuthMode('signup')}
+          />
+        ) : (
+          <SignUp
+            onSignUp={handleSignUp}
+            onShowLogin={() => setAuthMode('login')}
+          />
+        )}
+      </div>
+    );
   }
 
   return (

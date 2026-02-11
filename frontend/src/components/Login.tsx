@@ -5,9 +5,10 @@ import '../styles/Auth.css';
 
 interface LoginProps {
   onLoginSuccess?: () => void;
+  onShowSignUp?: () => void;
 }
 
-export const Login = ({ onLoginSuccess }: LoginProps) => {
+export const Login = ({ onLoginSuccess, onShowSignUp }: LoginProps) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -105,7 +106,10 @@ export const Login = ({ onLoginSuccess }: LoginProps) => {
         </form>
 
         <p className="switch-auth">
-          Don't have an account? <a href="/signup">Sign up</a>
+          Don't have an account?{' '}
+          <button type="button" className="link-button" onClick={onShowSignUp}>
+            Sign up
+          </button>
         </p>
       </div>
     </div>

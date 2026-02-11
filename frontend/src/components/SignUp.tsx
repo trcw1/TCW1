@@ -5,9 +5,10 @@ import '../styles/SignUp.css';
 
 interface SignUpProps {
   onSignUp?: (userId: string, email: string) => void;
+  onShowLogin?: () => void;
 }
 
-const SignUp = ({ onSignUp }: SignUpProps) => {
+const SignUp = ({ onSignUp, onShowLogin }: SignUpProps) => {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -149,7 +150,12 @@ const SignUp = ({ onSignUp }: SignUpProps) => {
         </form>
 
         <div className="signup-footer">
-          <p>Already have an account? <a href="/login">Login here</a></p>
+          <p>
+            Already have an account?{' '}
+            <button type="button" className="link-button" onClick={onShowLogin}>
+              Login here
+            </button>
+          </p>
         </div>
       </div>
     </div>
