@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IUser extends Document {
   email: string;
-  password: string;
+  password?: string;
   firstName?: string;
   lastName?: string;
   phone?: string;
@@ -10,6 +10,9 @@ export interface IUser extends Document {
   twoFactorEnabled: boolean;
   twoFactorSecret?: string;
   backupCodes: string[];
+  googleId?: string;
+  profilePicture?: string;
+  authProvider: 'local' | 'google';
   createdAt: Date;
   updatedAt: Date;
   lastLogin?: Date;
@@ -27,7 +30,6 @@ const UserSchema = new Schema<IUser>(
     },
     password: {
       type: String,
-      required: true,
       minlength: 8
     },
     firstName: {
@@ -59,6 +61,19 @@ const UserSchema = new Schema<IUser>(
         type: String
       }
     ],
+    googleId: {
+      type: String,
+      sparse: true,
+      unique: true
+    },
+    profilePicture: {
+      type: String
+    },
+    authProvider: {
+      type: String,
+      enum: ['local', 'google'],
+      default: 'local'
+    },
     lastLogin: {
       type: Date
     }

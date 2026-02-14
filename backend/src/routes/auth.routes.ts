@@ -1,6 +1,8 @@
 import express, { Router, Request, Response } from 'express';
+import passport from '../config/passport.config';
 import { authService } from '../services/auth.service';
 import { authMiddleware, AuthRequest } from '../middleware/auth.middleware';
+import { IUser } from '../models/User';
 
 const router: Router = express.Router();
 
@@ -90,5 +92,33 @@ router.post('/change-password', authMiddleware, async (req: AuthRequest, res: Re
 router.get('/verify', authMiddleware, async (req: AuthRequest, res: Response) => {
   res.json({ success: true, message: 'Token is valid', userId: req.userId });
 });
+
+// Google OAuth Routes
+router.get('/google', 
+  passport.authenticate('google', { 
+    session: false,
+    scope: ['profile', 'email'] 
+  })
+);
+
+router.get('/google/callback',
+  passport.authenticate('google', { session: false, failureRedirect: '/login' }),
+  async (req: Request, res: Response) => {
+    try {
+      const user = req.user as IUser;
+      const result = await authService.googleAuth(user);
+
+      if (result.success && result.token) {
+        // Redirect to frontend with token
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+        res.redirect(`${frontendUrl}/auth/google/callback?token=${result.token}&user=${encodeURIComponent(JSON.stringify(result.user))}`);
+      } else {
+        res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/login?error=auth_failed`);
+      }
+    } catch (error) {
+      res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/login?error=auth_failed`);
+    }
+  }
+);
 
 export default router;

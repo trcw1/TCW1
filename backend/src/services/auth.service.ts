@@ -74,7 +74,17 @@ class AuthService {
     try {
       const user = await User.findOne({ email: email.toLowerCase() });
 
-      if (!user || !(await bcrypt.compare(password, user.password))) {
+      if (!user) {
+        return { success: false, message: 'Invalid credentials' };
+      }
+
+      // Check if user signed up with Google OAuth only
+      if (user.authProvider === 'google' && !user.password) {
+        return { success: false, message: 'Please sign in with Google' };
+      }
+
+      // Verify password
+      if (!user.password || !(await bcrypt.compare(password, user.password))) {
         return { success: false, message: 'Invalid credentials' };
       }
 
@@ -316,6 +326,33 @@ class AuthService {
       };
     } catch (error: any) {
       return { success: false, message: error.message || 'Admin login failed' };
+    }
+  }
+
+  async googleAuth(user: IUser): Promise<AuthResponse> {
+    try {
+      // Update last login
+      user.lastLogin = new Date();
+      await user.save();
+
+      // Generate token
+      const token = this.generateToken(user._id.toString());
+
+      return {
+        success: true,
+        message: 'Google authentication successful',
+        user: {
+          id: user._id.toString(),
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          isAdmin: user.isAdmin,
+          twoFactorEnabled: user.twoFactorEnabled
+        },
+        token
+      };
+    } catch (error: any) {
+      return { success: false, message: error.message || 'Google authentication failed' };
     }
   }
 

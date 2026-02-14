@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import mongoose from 'mongoose';
+import passport from './config/passport.config';
 import walletRoutes from './routes/wallet.routes';
 import paypalRoutes from './routes/paypal.routes';
 import authRoutes from './routes/auth.routes';
@@ -37,6 +38,7 @@ mongoose.connect(MONGODB_URI)
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize());
 
 // Request logging middleware
 app.use((req: Request, res: Response, next) => {
