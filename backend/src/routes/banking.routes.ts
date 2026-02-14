@@ -5,6 +5,8 @@ import { BankTransferRequest } from '../types';
 const router = Router();
 
 // Link a bank account
+// Note: In production, implement rate limiting for all banking endpoints
+// Recommended: express-rate-limit middleware
 router.post('/accounts/link', async (req: Request, res: Response) => {
   try {
     const { userId, accountNumber, routingNumber, accountType, bankName, accountHolderName } = req.body;
@@ -90,6 +92,8 @@ router.put('/accounts/:userId/:accountId/primary', async (req: Request, res: Res
 });
 
 // Verify bank account
+// Note: In production, implement rate limiting for this endpoint to prevent abuse
+// Recommended: express-rate-limit middleware with 5 requests per 15 minutes
 router.post('/accounts/:userId/:accountId/verify', async (req: Request, res: Response) => {
   try {
     const { userId, accountId } = req.params;
@@ -109,6 +113,7 @@ router.post('/accounts/:userId/:accountId/verify', async (req: Request, res: Res
 });
 
 // Deposit from bank to wallet
+// Note: In production, implement rate limiting to prevent abuse
 router.post('/deposit', async (req: Request, res: Response) => {
   try {
     const { userId, bankAccountId, amount, transferType, description } = req.body;
@@ -162,6 +167,7 @@ router.post('/deposit', async (req: Request, res: Response) => {
 });
 
 // Withdraw from wallet to bank
+// Note: In production, implement rate limiting to prevent abuse
 router.post('/withdraw', async (req: Request, res: Response) => {
   try {
     const { userId, bankAccountId, amount, transferType, description } = req.body;
