@@ -13,6 +13,14 @@ export const api = {
     return axios.post(`${API_BASE_URL}${url}`, data, config);
   },
 
+  // Generic GET helper
+  async get<T = any>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
+    return axios.get(`${API_BASE_URL}${url}`, config);
+  },
+
   // Get wallet balance
   async getBalance(userId: string): Promise<Wallet> {
     const response = await axios.get(`${API_BASE_URL}/wallet/${userId}/balance`);

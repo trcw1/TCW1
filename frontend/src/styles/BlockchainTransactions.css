@@ -1,0 +1,293 @@
+/* Blockchain Transactions Styles */
+.blockchain-transactions {
+  background: #0b0b0b;
+  border-radius: 15px;
+  padding: 25px;
+  margin: 20px 0;
+}
+
+.transactions-header {
+  margin-bottom: 25px;
+}
+
+.transactions-header h2 {
+  color: #FFD700;
+  font-size: 24px;
+  margin: 0 0 8px 0;
+}
+
+.transactions-header .subtitle {
+  color: #888;
+  font-size: 14px;
+  margin: 0;
+}
+
+.filters {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-group label {
+  color: #FFD700;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.filter-group select {
+  padding: 10px 15px;
+  background: #1a1a1a;
+  color: #FFFFFF;
+  border: 1px solid #333;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 150px;
+}
+
+.filter-group select:hover,
+.filter-group select:focus {
+  border-color: #FFD700;
+  outline: none;
+}
+
+.refresh-btn {
+  padding: 10px 20px;
+  background: #222;
+  color: #FFD700;
+  border: 1px solid #333;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.refresh-btn:hover {
+  background: #FFD700;
+  color: #000;
+  transform: translateY(-2px);
+}
+
+.loading-state,
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #888;
+}
+
+.empty-state p {
+  margin: 10px 0;
+}
+
+.empty-state .hint {
+  font-size: 14px;
+  color: #666;
+}
+
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.transaction-card {
+  background: #111111;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.transaction-card:hover {
+  border-color: #FFD700;
+  transform: translateX(5px);
+}
+
+.transaction-card.confirmed {
+  border-left: 4px solid #00FF00;
+}
+
+.transaction-card.pending {
+  border-left: 4px solid #FFA500;
+}
+
+.transaction-card.failed {
+  border-left: 4px solid #FF4444;
+}
+
+.tx-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.type-badge,
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.type-badge.trade {
+  background: rgba(255, 215, 0, 0.15);
+  color: #FFD700;
+}
+
+.type-badge.send {
+  background: rgba(255, 69, 0, 0.15);
+  color: #FF8566;
+}
+
+.type-badge.receive {
+  background: rgba(0, 255, 0, 0.15);
+  color: #00FF00;
+}
+
+.status-badge.confirmed {
+  background: rgba(0, 255, 0, 0.15);
+  color: #00FF00;
+}
+
+.status-badge.pending {
+  background: rgba(255, 165, 0, 0.15);
+  color: #FFA500;
+}
+
+.status-badge.failed {
+  background: rgba(255, 68, 68, 0.15);
+  color: #FF4444;
+}
+
+.tx-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.tx-main-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.tx-amount,
+.tx-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tx-amount .label,
+.tx-pair .label {
+  color: #666;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tx-amount .value {
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.tx-amount .value.received {
+  color: #00FF00;
+}
+
+.tx-pair .value {
+  color: #FFD700;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.tx-details {
+  background: #0a0a0a;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.detail-row .label {
+  color: #888;
+}
+
+.detail-row .value {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.detail-row .value.hash {
+  font-family: monospace;
+  color: #FFD700;
+  cursor: pointer;
+}
+
+.detail-row .value.hash:hover {
+  text-decoration: underline;
+}
+
+.detail-row .value.verified {
+  color: #00FF00;
+}
+
+.detail-row .value.unverified {
+  color: #FFA500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .blockchain-transactions {
+    padding: 15px;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-group select,
+  .refresh-btn {
+    width: 100%;
+  }
+
+  .tx-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .tx-main-info {
+    flex-direction: column;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}

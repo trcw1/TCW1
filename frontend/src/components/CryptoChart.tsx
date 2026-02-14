@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { api } from '../services/api';
 import '../styles/CryptoChart.css';
 
 interface CryptoPriceData {
@@ -8,6 +9,8 @@ interface CryptoPriceData {
   change7d: number;
   name: string;
   icon: string;
+  marketCap?: number;
+  volume24h?: number;
 }
 
 const CryptoChart: React.FC = () => {
@@ -16,40 +19,88 @@ const CryptoChart: React.FC = () => {
       symbol: 'BTC',
       name: 'Bitcoin',
       price: 45230,
-      change24h: 2.5,
-      change7d: 8.3,
+      change24h: 0,
+      change7d: 0,
       icon: '₿',
     },
     {
       symbol: 'ETH',
       name: 'Ethereum',
       price: 2840,
-      change24h: 1.8,
-      change7d: 5.2,
+      change24h: 0,
+      change7d: 0,
       icon: 'Ξ',
     },
     {
       symbol: 'USDT',
       name: 'Tether',
       price: 1.0,
-      change24h: 0.1,
-      change7d: 0.2,
+      change24h: 0,
+      change7d: 0,
       icon: '₮',
     },
   ]);
 
   const [animatingIndex, setAnimatingIndex] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>('');
+
+  // Fetch real crypto prices from API
+  const fetchCryptoPrices = async () => {
+    try {
+      const response = await api.get('/blockchain/prices');
+      
+      if (response.data.success) {
+        const { BTC, ETH, USDT } = response.data.data;
+        
+        setCryptoData([
+          {
+            symbol: 'BTC',
+            name: 'Bitcoin',
+            price: BTC.price,
+            change24h: BTC.change24h,
+            change7d: BTC.change7d,
+            marketCap: BTC.marketCap,
+            volume24h: BTC.volume24h,
+            icon: '₿',
+          },
+          {
+            symbol: 'ETH',
+            name: 'Ethereum',
+            price: ETH.price,
+            change24h: ETH.change24h,
+            change7d: ETH.change7d,
+            marketCap: ETH.marketCap,
+            volume24h: ETH.volume24h,
+            icon: 'Ξ',
+          },
+          {
+            symbol: 'USDT',
+            name: 'Tether',
+            price: USDT.price,
+            change24h: USDT.change24h,
+            change7d: USDT.change7d,
+            marketCap: USDT.marketCap,
+            volume24h: USDT.volume24h,
+            icon: '₮',
+          },
+        ]);
+        setError('');
+      }
+    } catch (err) {
+      console.error('Error fetching crypto prices:', err);
+      setError('Using cached prices');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCryptoData(prev =>
-        prev.map(crypto => ({
-          ...crypto,
-          price: crypto.price * (0.98 + Math.random() * 0.04),
-          change24h: crypto.change24h + (Math.random() - 0.5) * 0.5,
-        }))
-      );
-    }, 3000);
+    // Initial fetch
+    fetchCryptoPrices();
+
+    // Update every 60 seconds
+    const interval = setInterval(fetchCryptoPrices, 60000);
 
     return () => clearInterval(interval);
   }, []);
@@ -70,11 +121,24 @@ const CryptoChart: React.FC = () => {
     return pathString;
   };
 
+  const formatNumber = (num: number, decimals: number = 2): string => {
+    if (num >= 1000000000) {
+      return `$${(num / 1000000000).toFixed(2)}B`;
+    } else if (num >= 1000000) {
+      return `$${(num / 1000000).toFixed(2)}M`;
+    } else if (num >= 1000) {
+      return `$${(num / 1000).toFixed(2)}K`;
+    }
+    return `$${num.toFixed(decimals)}`;
+  };
+
   return (
     <div className="crypto-chart-container">
       <div className="chart-header">
         <h2 className="chart-title">💹 Market Overview</h2>
-        <p className="chart-subtitle">Real-time cryptocurrency prices</p>
+        <p className="chart-subtitle">
+          Real-time cryptocurrency prices {loading && '(Loading...)'} {error && `(${error})`}
+        </p>
       </div>
 
       <div className="crypto-grid">
@@ -103,7 +167,7 @@ const CryptoChart: React.FC = () => {
               <div className="price-section">
                 <p className="price-label">Current Price</p>
                 <h2 className="price-value">
-                  ${crypto.price.toFixed(2)}
+                  ${crypto.symbol === 'USDT' ? crypto.price.toFixed(4) : crypto.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </h2>
               </div>
 
@@ -131,6 +195,21 @@ const CryptoChart: React.FC = () => {
                   </span>
                 </div>
               </div>
+
+              {crypto.marketCap && crypto.marketCap > 0 && (
+                <div className="stats-row">
+                  <div className="stat">
+                    <span className="stat-label">Market Cap</span>
+                    <span className="stat-value">{formatNumber(crypto.marketCap)}</span>
+                  </div>
+                  {crypto.volume24h && crypto.volume24h > 0 && (
+                    <div className="stat">
+                      <span className="stat-label">24h Volume</span>
+                      <span className="stat-value">{formatNumber(crypto.volume24h)}</span>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="card-footer">
