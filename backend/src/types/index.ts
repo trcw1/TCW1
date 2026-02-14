@@ -20,7 +20,7 @@ export interface Transaction {
   id: string;
   userId: string;
   type: 'send' | 'receive';
-  currency: 'BTC' | 'USDT' | 'ETH' | 'PAYPAL';
+  currency: 'BTC' | 'USDT' | 'ETH' | 'PAYPAL' | 'USD';
   amount: number;
   recipientId?: string;
   senderId?: string;
@@ -31,7 +31,7 @@ export interface Transaction {
 
 export interface PaymentRequest {
   userId: string;
-  currency: 'BTC' | 'USDT' | 'ETH' | 'PAYPAL';
+  currency: 'BTC' | 'USDT' | 'ETH' | 'PAYPAL' | 'USD';
   amount: number;
   recipientId: string;
 }
