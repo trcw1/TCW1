@@ -43,7 +43,7 @@ const SignUp = ({ onSignUp, onShowLogin }: SignUpProps) => {
     setLoading(true);
 
     try {
-      const response = await api.post('/auth/signup', {
+      const response = await api.post('/api/auth/signup', {
         email,
         password,
         firstName,
