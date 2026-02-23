@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './ChatSidebar.css';
 
 interface Friend {
@@ -10,13 +10,12 @@ interface Friend {
 
 interface ChatSidebarProps {
   friends: Friend[];
-  currentUserId: string;
   onSelect: (friendId: string) => void;
   onAddFriend: (friendId: string) => void;
   selectedId: string | null;
 }
 
-const ChatSidebar: React.FC<ChatSidebarProps> = ({ friends, currentUserId, onSelect, onAddFriend, selectedId }) => {
+const ChatSidebar: React.FC<ChatSidebarProps> = ({ friends, onSelect, onAddFriend, selectedId }) => {
   const [search, setSearch] = useState('');
   const [addId, setAddId] = useState('');
 
