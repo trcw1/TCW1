@@ -98,10 +98,17 @@ export class MembershipService {
         platinum: 99.99
       };
 
-      membership.membershipTier = newTier;
-      membership.monthlyFee = newFees[newTier] || 0;
-      membership.benefits = this.getBenefitsByTier(newTier);
-      membership.updatedAt = new Date();
+        const allowedTiers = ['basic', 'premium', 'gold', 'platinum'] as const;
+        if (!allowedTiers.includes(newTier as any)) {
+          return {
+            success: false,
+            error: 'Invalid membership tier'
+          };
+        }
+        membership.membershipTier = newTier as typeof allowedTiers[number];
+        membership.monthlyFee = newFees[newTier] || 0;
+        membership.benefits = this.getBenefitsByTier(newTier);
+        membership.updatedAt = new Date();
 
       await membership.save();
 
