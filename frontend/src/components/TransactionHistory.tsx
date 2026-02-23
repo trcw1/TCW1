@@ -6,9 +6,10 @@ import './TransactionHistory.css';
 interface TransactionHistoryProps {
   userId: string;
   refresh: number;
+  filter?: 'all' | 'payments' | 'withdrawals' | 'sending';
 }
 
-export const TransactionHistory: React.FC<TransactionHistoryProps> = ({ userId, refresh }) => {
+export const TransactionHistory: React.FC<TransactionHistoryProps> = ({ userId, refresh, filter = 'all' }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -47,17 +48,26 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({ userId, 
     return <div className="loading">Loading transactions...</div>;
   }
 
+  // Filtering logic
+  let filtered = transactions;
+  if (filter === 'payments') {
+    filtered = transactions.filter(tx => tx.type === 'receive' && tx.currency !== 'BTC' && tx.currency !== 'ETH' && tx.currency !== 'USDT');
+  } else if (filter === 'withdrawals') {
+    filtered = transactions.filter(tx => tx.type === 'send' && (tx.currency === 'USD' || tx.currency === 'PAYPAL'));
+  } else if (filter === 'sending') {
+    filtered = transactions.filter(tx => tx.type === 'send' && (tx.currency === 'BTC' || tx.currency === 'ETH' || tx.currency === 'USDT'));
+  }
+
   return (
     <div className="transaction-history">
       <h3>📜 Transaction History</h3>
-      
-      {transactions.length === 0 ? (
+      {filtered.length === 0 ? (
         <div className="no-transactions">
           <p>No transactions yet</p>
         </div>
       ) : (
         <div className="transactions-list">
-          {transactions.map((tx) => (
+          {filtered.map((tx) => (
             <div key={tx.id} className={`transaction-item ${tx.type}`}>
               <div className="tx-icon">
                 {tx.type === 'send' ? '📤' : '📥'}
