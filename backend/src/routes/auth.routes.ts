@@ -1,8 +1,6 @@
 import express, { Router, Request, Response } from 'express';
-import passport, { isGoogleOAuthConfigured } from '../config/passport.config';
 import { authService } from '../services/auth.service';
 import { authMiddleware, AuthRequest } from '../middleware/auth.middleware';
-import { IUser } from '../models/User';
 
 const router: Router = express.Router();
 
@@ -92,51 +90,5 @@ router.post('/change-password', authMiddleware, async (req: AuthRequest, res: Re
 router.get('/verify', authMiddleware, async (req: AuthRequest, res: Response) => {
   res.json({ success: true, message: 'Token is valid', userId: req.userId });
 });
-
-// Google OAuth Routes
-router.get('/google', 
-  (req: Request, res: Response, next) => {
-    // Check if Google OAuth is configured
-    if (!isGoogleOAuthConfigured) {
-      return res.status(503).json({ 
-        success: false, 
-        message: 'Google OAuth is not configured on this server' 
-      });
-    }
-    next();
-  },
-  passport.authenticate('google', { 
-    session: false,
-    scope: ['profile', 'email'] 
-  })
-);
-
-router.get('/google/callback',
-  (req: Request, res: Response, next) => {
-    // Check if Google OAuth is configured
-    if (!isGoogleOAuthConfigured) {
-      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-      return res.redirect(`${frontendUrl}/login?error=oauth_not_configured`);
-    }
-    next();
-  },
-  passport.authenticate('google', { session: false, failureRedirect: '/login' }),
-  async (req: Request, res: Response) => {
-    try {
-      const user = req.user as IUser;
-      const result = await authService.googleAuth(user);
-
-      if (result.success && result.token) {
-        // Redirect to frontend with token
-        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-        res.redirect(`${frontendUrl}/auth/google/callback?token=${result.token}&user=${encodeURIComponent(JSON.stringify(result.user))}`);
-      } else {
-        res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/login?error=auth_failed`);
-      }
-    } catch (error) {
-      res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/login?error=auth_failed`);
-    }
-  }
-);
 
 export default router;

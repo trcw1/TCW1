@@ -13,7 +13,6 @@ import Chat from './components/Chat';
 import VideoCall from './components/VideoCall';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
-import GoogleCallback from './components/GoogleCallback';
 import CryptoChart from './components/CryptoChart';
 import Modal from './components/Modal';
 import Loading from './components/Loading';
@@ -845,7 +844,6 @@ function AppWrapper() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/logout" element={<LogoutPage />} />
-          <Route path="/auth/google/callback" element={<GoogleCallback />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

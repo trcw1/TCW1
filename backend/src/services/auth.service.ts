@@ -329,33 +329,6 @@ class AuthService {
     }
   }
 
-  async googleAuth(user: IUser): Promise<AuthResponse> {
-    try {
-      // Update last login
-      user.lastLogin = new Date();
-      await user.save();
-
-      // Generate token
-      const token = this.generateToken(user._id.toString());
-
-      return {
-        success: true,
-        message: 'Google authentication successful',
-        user: {
-          id: user._id.toString(),
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          isAdmin: user.isAdmin,
-          twoFactorEnabled: user.twoFactorEnabled
-        },
-        token
-      };
-    } catch (error: any) {
-      return { success: false, message: error.message || 'Google authentication failed' };
-    }
-  }
-
   private generateToken(userId: string): string {
     return jwt.sign({ userId }, JWT_SECRET, { expiresIn: JWT_EXPIRE });
   }
