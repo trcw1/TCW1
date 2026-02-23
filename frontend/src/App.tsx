@@ -228,157 +228,26 @@ function App() {
   }
 
   return (
-    <div className="app">
-      <header className="app-header">
-        <div className="header-content">
-          <div className="title-block">
-            <h1>TCW1</h1>
-            <p className="tagline">Send and receive Bitcoin, USDT, Ethereum & PayPal</p>
-          </div>
-        </div>
+    <div style={{ maxWidth: 900, margin: '0 auto', padding: 16 }}>
+      <header style={{ marginBottom: 16, textAlign: 'center' }}>
+        <h1 style={{ fontSize: 24, margin: 0 }}>TCW1</h1>
+        <p style={{ fontSize: 14, color: '#555' }}>Send and receive Bitcoin, USDT, Ethereum & PayPal</p>
       </header>
-
-      <div className="user-profile-menu">
-        <button 
-          className="user-avatar"
-          onClick={() => setShowUserMenu(!showUserMenu)}
-          title={userId}
-        >
-          <span className="avatar-icon">👤</span>
-          <span className="avatar-text">{userId.split('-')[1]}</span>
-        </button>
-        {showUserMenu && (
-          <div className="user-dropdown">
-            <button 
-              className={`user-option ${userId === 'user-001' ? 'active' : ''}`}
-              onClick={() => {
-                setUserId('user-001');
-                setShowUserMenu(false);
-              }}
-            >
-              👤 User 001
-            </button>
-            <button 
-              className={`user-option ${userId === 'user-002' ? 'active' : ''}`}
-              onClick={() => {
-                setUserId('user-002');
-                setShowUserMenu(false);
-              }}
-            >
-              👤 User 002
-            </button>
-            <button 
-              className={`user-option ${userId === 'user-003' ? 'active' : ''}`}
-              onClick={() => {
-                setUserId('user-003');
-                setShowUserMenu(false);
-              }}
-            >
-              👤 User 003
-            </button>
-          </div>
+      <nav style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16, justifyContent: 'center' }}>
+        <button style={{ padding: '8px 16px', border: '1px solid #ccc', background: activeMenu === 'wallet' ? '#eee' : '#fff' }} onClick={() => toggleMenu('wallet')}>Wallet</button>
+        <button style={{ padding: '8px 16px', border: '1px solid #ccc', background: activeMenu === 'receive' ? '#eee' : '#fff' }} onClick={() => toggleMenu('receive')}>Receive</button>
+        <button style={{ padding: '8px 16px', border: '1px solid #ccc', background: activeMenu === 'send' ? '#eee' : '#fff' }} onClick={() => toggleMenu('send')}>Send</button>
+        <button style={{ padding: '8px 16px', border: '1px solid #ccc', background: activeMenu === 'history' ? '#eee' : '#fff' }} onClick={() => toggleMenu('history')}>History</button>
+        <button style={{ padding: '8px 16px', border: '1px solid #ccc', background: activeMenu === 'banking' ? '#eee' : '#fff' }} onClick={() => toggleMenu('banking')}>Banking</button>
+        <button style={{ padding: '8px 16px', border: '1px solid #ccc', background: activeMenu === 'chat' ? '#eee' : '#fff' }} onClick={() => toggleMenu('chat')}>Chat</button>
+        <button style={{ padding: '8px 16px', border: '1px solid #ccc', background: activeMenu === 'video' ? '#eee' : '#fff' }} onClick={() => toggleMenu('video')}>Video</button>
+        <button style={{ padding: '8px 16px', border: '1px solid #ccc', background: activeMenu === 'settings' ? '#eee' : '#fff' }} onClick={() => toggleMenu('settings')}>Settings</button>
+        <button style={{ padding: '8px 16px', border: '1px solid #ccc', background: activeMenu === 'exchange' ? '#eee' : '#fff' }} onClick={() => toggleMenu('exchange')}>Exchange</button>
+        <button style={{ padding: '8px 16px', border: '1px solid #ccc', background: activeMenu === 'notifications' ? '#eee' : '#fff' }} onClick={() => toggleMenu('notifications')}>Notifications</button>
+        {localStorage.getItem('isAdmin') === 'true' && (
+          <button style={{ padding: '8px 16px', border: '1px solid #ccc', background: activeMenu === 'admin' ? '#eee' : '#fff' }} onClick={() => toggleMenu('admin')}>Admin Panel</button>
         )}
-      </div>
-
-      <button className="menu-toggle" onClick={() => setShowSidebar(!showSidebar)} title="Menu">
-        <span className="hamburger-icon">☰</span>
-      </button>
-
-      {showSidebar && <div className="sidebar-overlay" onClick={() => setShowSidebar(false)} />}
-      
-      <nav className={`sidebar ${showSidebar ? 'open' : ''}`}>
-        <div className="sidebar-header">
-          <h3>Menu</h3>
-          <button className="close-sidebar" onClick={() => setShowSidebar(false)}>✕</button>
-        </div>
-        <div className="sidebar-menu">
-          <button
-            className={`sidebar-item ${activeMenu === 'wallet' ? 'active' : ''}`}
-            onClick={() => { toggleMenu('wallet'); setShowSidebar(false); }}
-          >
-            <span className="sidebar-icon">💼</span>
-            <span className="sidebar-text">Wallet</span>
-          </button>
-          <button
-            className={`sidebar-item ${activeMenu === 'receive' ? 'active' : ''}`}
-            onClick={() => { toggleMenu('receive'); setShowSidebar(false); }}
-          >
-            <span className="sidebar-icon">📥</span>
-            <span className="sidebar-text">Receive</span>
-          </button>
-          <button
-            className={`sidebar-item ${activeMenu === 'send' ? 'active' : ''}`}
-            onClick={() => { toggleMenu('send'); setShowSidebar(false); }}
-          >
-            <span className="sidebar-icon">📤</span>
-            <span className="sidebar-text">Send</span>
-          </button>
-          <button
-            className={`sidebar-item ${activeMenu === 'history' ? 'active' : ''}`}
-            onClick={() => { toggleMenu('history'); setShowSidebar(false); }}
-          >
-            <span className="sidebar-icon">🧾</span>
-            <span className="sidebar-text">History</span>
-          </button>
-          <button
-            className={`sidebar-item ${activeMenu === 'banking' ? 'active' : ''}`}
-            onClick={() => { toggleMenu('banking'); setShowSidebar(false); }}
-          >
-            <span className="sidebar-icon">🏦</span>
-            <span className="sidebar-text">Banking</span>
-          </button>
-          <button
-            className={`sidebar-item ${activeMenu === 'chat' ? 'active' : ''}`}
-            onClick={() => { toggleMenu('chat'); setShowSidebar(false); }}
-          >
-            <span className="sidebar-icon">💬</span>
-            <span className="sidebar-text">Chat</span>
-          </button>
-          <button
-            className={`sidebar-item ${activeMenu === 'video' ? 'active' : ''}`}
-            onClick={() => { toggleMenu('video'); setShowSidebar(false); }}
-          >
-            <span className="sidebar-icon">📹</span>
-            <span className="sidebar-text">Video</span>
-          </button>
-          <button
-            className={`sidebar-item ${activeMenu === 'settings' ? 'active' : ''}`}
-            onClick={() => { toggleMenu('settings'); setShowSidebar(false); }}
-          >
-            <span className="sidebar-icon">⚙️</span>
-            <span className="sidebar-text">Settings</span>
-          </button>
-          <button
-            className={`sidebar-item ${activeMenu === 'exchange' ? 'active' : ''}`}
-            onClick={() => { toggleMenu('exchange'); setShowSidebar(false); }}
-          >
-            <span className="sidebar-icon">💱</span>
-            <span className="sidebar-text">Exchange</span>
-          </button>
-          <button
-            className={`sidebar-item ${activeMenu === 'notifications' ? 'active' : ''}`}
-            onClick={() => { toggleMenu('notifications'); setShowSidebar(false); }}
-          >
-            <span className="sidebar-icon">🔔</span>
-            <span className="sidebar-text">Notifications</span>
-          </button>
-          {localStorage.getItem('isAdmin') === 'true' && (
-            <button
-              className={`sidebar-item ${activeMenu === 'admin' ? 'active' : ''}`}
-              onClick={() => { toggleMenu('admin'); setShowSidebar(false); }}
-            >
-              <span className="sidebar-icon">⚙️</span>
-              <span className="sidebar-text">Admin Panel</span>
-            </button>
-          )}
-          <button
-            className={`sidebar-item ${activeMenu === 'help' ? 'active' : ''}`}
-            onClick={() => { toggleMenu('help'); setShowSidebar(false); }}
-          >
-            <span className="sidebar-icon">❓</span>
-            <span className="sidebar-text">Help</span>
-          </button>
-        </div>
+        <button style={{ padding: '8px 16px', border: '1px solid #ccc', background: activeMenu === 'help' ? '#eee' : '#fff' }} onClick={() => toggleMenu('help')}>Help</button>
       </nav>
 
       <main className="app-main">
