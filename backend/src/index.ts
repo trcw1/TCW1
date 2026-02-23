@@ -19,6 +19,8 @@ import catalogRoutes from './routes/catalog.routes';
 import orderRoutes from './routes/order.routes';
 import membershipRoutes from './routes/membership.routes';
 import marketplaceRoutes from './routes/marketplace.routes';
+import friendRequestRoutes from './routes/friend-request.routes';
+import privacyRoutes from './routes/privacy.routes';
 
 // Load environment variables
 dotenv.config();
@@ -76,6 +78,8 @@ app.use('/api/catalog', catalogRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/membership', membershipRoutes);
 app.use('/api/marketplace', marketplaceRoutes);
+app.use('/api/friends', friendRequestRoutes);
+app.use('/api/privacy', privacyRoutes);
 
 // Root endpoint
 app.get('/', (req: Request, res: Response) => {

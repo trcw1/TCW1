@@ -23,12 +23,20 @@ export interface AuthResponse {
 }
 
 class AuthService {
-  async signup(email: string, password: string, firstName?: string, lastName?: string): Promise<AuthResponse> {
+  async signup(email: string, password: string, firstName?: string, lastName?: string, phone?: string): Promise<AuthResponse> {
     try {
-      // Check if user exists
+      // Check if user exists by email
       const existingUser = await User.findOne({ email: email.toLowerCase() });
       if (existingUser) {
         return { success: false, message: 'Email already registered' };
+      }
+
+      // If phone provided, check uniqueness
+      if (phone) {
+        const existingPhone = await User.findOne({ phone });
+        if (existingPhone) {
+          return { success: false, message: 'Phone number already registered' };
+        }
       }
 
       // Hash password
@@ -40,6 +48,7 @@ class AuthService {
         password: hashedPassword,
         firstName,
         lastName,
+        phone,
         backupCodes: []
       });
 

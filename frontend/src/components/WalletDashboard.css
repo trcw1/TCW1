@@ -1,4 +1,9 @@
-﻿.wallet-dashboard {
+﻿.modal-action-content {
+  min-height: 80px;
+  text-align: center;
+  padding: 16px;
+}
+.wallet-dashboard {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Modal from './Modal';
 import { Wallet, Currency } from '../types';
 import { api } from '../services/api';
 import './WalletDashboard.css';
@@ -12,6 +13,7 @@ export const WalletDashboard: React.FC<WalletDashboardProps> = ({ userId }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [prices, setPrices] = useState({ BTC: 0, ETH: 0, USDT: 0, currency: 'USD' });
+  const [modal, setModal] = useState<null | 'send' | 'receive' | 'deposit' | 'withdraw'>(null);
 
   useEffect(() => {
     loadWalletData();
@@ -105,11 +107,29 @@ export const WalletDashboard: React.FC<WalletDashboardProps> = ({ userId }) => {
         ))}
       </div>
 
-      <div className="actions">
+      <div className="actions actions-grid">
+        <button className="btn-action" onClick={() => setModal('send')}>
+          📤 Send
+        </button>
+        <button className="btn-action" onClick={() => setModal('receive')}>
+          📥 Receive
+        </button>
+        <button className="btn-action" onClick={() => setModal('deposit')}>
+          💵 Deposit
+        </button>
+        <button className="btn-action" onClick={() => setModal('withdraw')}>
+          💸 Withdraw
+        </button>
         <button className="btn-refresh" onClick={loadWalletData}>
           🔄 Refresh
         </button>
       </div>
+
+      <Modal isOpen={modal !== null} title={modal ? modal.charAt(0).toUpperCase() + modal.slice(1) : ''} onClose={() => setModal(null)}>
+        <div className="modal-action-content">
+          <p>Action coming soon: <b>{modal}</b></p>
+        </div>
+      </Modal>
     </div>
   );
 };

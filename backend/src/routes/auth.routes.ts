@@ -8,13 +8,13 @@ const router: Router = express.Router();
 
 // Signup
 router.post('/signup', async (req: Request, res: Response) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { email, password, firstName, lastName, phone } = req.body;
 
   if (!email || !password) {
     return res.status(400).json({ success: false, message: 'Email and password required' });
   }
 
-  const result = await authService.signup(email, password, firstName, lastName);
+  const result = await authService.signup(email, password, firstName, lastName, phone);
   res.status(result.success ? 201 : 400).json(result);
 });
 

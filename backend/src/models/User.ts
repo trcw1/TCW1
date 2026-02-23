@@ -16,6 +16,8 @@ export interface IUser extends Document {
   createdAt: Date;
   updatedAt: Date;
   lastLogin?: Date;
+  showOnlineStatus?: boolean;
+  showProfilePicture?: boolean;
 }
 
 const UserSchema = new Schema<IUser>(
@@ -42,7 +44,9 @@ const UserSchema = new Schema<IUser>(
     },
     phone: {
       type: String,
-      trim: true
+      trim: true,
+      unique: true,
+      sparse: true
     },
     isAdmin: {
       type: Boolean,
@@ -76,6 +80,15 @@ const UserSchema = new Schema<IUser>(
     },
     lastLogin: {
       type: Date
+    }
+    ,
+    showOnlineStatus: {
+      type: Boolean,
+      default: true
+    },
+    showProfilePicture: {
+      type: Boolean,
+      default: true
     }
   },
   {
