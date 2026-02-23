@@ -26,11 +26,16 @@ const ChatPage: React.FC = () => {
     <div className="chat-page">
       <ChatSidebar
         friends={friends}
-        currentUserId={currentUserId}
         onSelect={setSelectedId}
         onAddFriend={handleAddFriend}
         selectedId={selectedId}
       />
+        <ChatSidebar
+          friends={friends}
+          onSelect={setSelectedId}
+          onAddFriend={handleAddFriend}
+          selectedId={selectedId}
+        />
       <div className="chat-main-area">
         {selectedId ? (
           <Chat currentUserId={currentUserId} recipientId={selectedId} onClose={() => setSelectedId(null)} />

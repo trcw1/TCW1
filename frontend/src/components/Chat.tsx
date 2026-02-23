@@ -29,7 +29,8 @@ const Chat: React.FC<ChatProps> = ({ currentUserId, recipientId, onClose }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const newSocket = io('http://localhost:3001');
+    const socketUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+    const newSocket = io(socketUrl);
     setSocket(newSocket);
 
     newSocket.emit('join', currentUserId);
