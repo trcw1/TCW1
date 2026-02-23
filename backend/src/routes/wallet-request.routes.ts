@@ -6,7 +6,7 @@ const router: Router = express.Router();
 // Create wallet request
 router.post('/request', async (req: Request, res: Response) => {
   try {
-    const { userId, walletType } = req.body;
+    const { userId, walletType, reference, proofFile } = req.body;
 
     if (!userId || !walletType) {
       return res.status(400).json({
@@ -15,7 +15,7 @@ router.post('/request', async (req: Request, res: Response) => {
       });
     }
 
-    const result = await WalletRequestService.createWalletRequest(userId, walletType);
+    const result = await WalletRequestService.createWalletRequest(userId, walletType, reference, proofFile);
     res.json(result);
   } catch (error: any) {
     res.status(500).json({

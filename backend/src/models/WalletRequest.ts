@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IWalletRequest extends Document {
   userId: string;
-  walletType: 'BTC' | 'ETH' | 'USDT';
+  walletType: 'BTC' | 'ETH' | 'USDT' | 'manual-deposit' | 'manual-withdraw';
   status: 'pending' | 'approved' | 'rejected';
   walletAddress?: string;
   requestedAt: Date;
@@ -10,6 +10,8 @@ export interface IWalletRequest extends Document {
   rejectedAt?: Date;
   approvalNotes?: string;
   rejectionReason?: string;
+  reference?: string;
+  proofFile?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -23,9 +25,15 @@ const WalletRequestSchema = new Schema<IWalletRequest>(
     },
     walletType: {
       type: String,
-      enum: ['BTC', 'ETH', 'USDT'],
+      enum: ['BTC', 'ETH', 'USDT', 'manual-deposit', 'manual-withdraw'],
       required: true
     },
+        reference: {
+          type: String
+        },
+        proofFile: {
+          type: String
+        },
     status: {
       type: String,
       enum: ['pending', 'approved', 'rejected'],

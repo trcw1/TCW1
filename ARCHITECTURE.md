@@ -9,7 +9,7 @@
 └─────────────────────────────────────────────┬───────────────────────────┘
                                               │
                               https://yourdomain.com
-                              https://api.yourdomain.com
+                              https://apiPR.yourdomain.com
                                     │
                     ┌───────────────┴───────────────┐
                     │                               │

@@ -8,15 +8,54 @@
   height: 100vh;
 }
 
+
 .sidebar-header {
-  padding: 18px 16px 8px 16px;
-  border-bottom: 1px solid #222;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
 }
 
-.sidebar-header h2 {
-  margin: 0 0 8px 0;
-  font-size: 1.3rem;
-  color: #FFD700;
+.sidebar-header .sidebar-title {
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: lowercase;
+  color: #888;
+  flex: 1;
+}
+
+.sidebar-header .sidebar-icon-btn {
+  background: none;
+  border: none;
+  opacity: 0.5;
+  margin-right: 4px;
+  cursor: pointer;
+  padding: 2px;
+  transition: opacity 0.2s;
+}
+.sidebar-header .sidebar-icon-btn:last-child {
+  margin-right: 0;
+}
+.sidebar-header .sidebar-icon-btn:hover {
+  opacity: 0.8;
+}
+
+.sidebar-header svg {
+  width: 18px;
+  height: 18px;
+  stroke: #888;
+}
+
+.sidebar-search {
+  width: 100%;
+  font-size: 0.9rem;
+  margin: 4px 0 8px 0;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #eee;
+  background: #fafafa;
+  color: #444;
 }
 
 .sidebar-search {

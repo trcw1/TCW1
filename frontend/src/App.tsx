@@ -1,7 +1,9 @@
 ﻿
 
+
 import { WalletDashboard } from './components/WalletDashboard';
 import { TransactionHistory } from './components/TransactionHistory';
+import BottomNav from './components/BottomNav';
 import './App.css';
 
 function App() {
@@ -11,10 +13,9 @@ function App() {
     <div className="app">
       <header className="app-header">
         <div className="header-content">
-          <img src="/logo192.png" alt="TCW1 Logo" className="app-logo" />
+          <img src="/logo.svg" alt="tcw1 logo" className="app-logo" />
           <div className="title-block">
-            <h1>TCW1 Wallet</h1>
-            <span className="subtitle">Crypto, PayPal & Banking in one place</span>
+            <h1>tcw1</h1>
           </div>
         </div>
       </header>
@@ -22,6 +23,7 @@ function App() {
         <WalletDashboard userId={userId} />
         <TransactionHistory userId={userId} refresh={0} />
       </main>
+      <BottomNav />
     </div>
   );
 }

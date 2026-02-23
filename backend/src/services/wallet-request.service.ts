@@ -1,29 +1,35 @@
 import { WalletRequest } from '../models/WalletRequest';
 
 export class WalletRequestService {
-  static async createWalletRequest(userId: string, walletType: 'BTC' | 'ETH' | 'USDT') {
+  static async createWalletRequest(
+    userId: string,
+    walletType: 'BTC' | 'ETH' | 'USDT' | 'manual-deposit' | 'manual-withdraw',
+    reference?: string,
+    proofFile?: string
+  ) {
     try {
-      // Check if request already exists for this user and wallet type
-      const existingRequest = await WalletRequest.findOne({
-        userId,
-        walletType,
-        status: 'pending'
-      });
-
-      if (existingRequest) {
-        return {
-          success: false,
-          error: `Pending ${walletType} wallet request already exists`
-        };
+      // Only check for duplicates for non-manual types
+      if (walletType !== 'manual-deposit' && walletType !== 'manual-withdraw') {
+        const existingRequest = await WalletRequest.findOne({
+          userId,
+          walletType,
+          status: 'pending'
+        });
+        if (existingRequest) {
+          return {
+            success: false,
+            error: `Pending ${walletType} wallet request already exists`
+          };
+        }
       }
-
       const walletRequest = new WalletRequest({
         userId,
         walletType,
         status: 'pending',
-        requestedAt: new Date()
+        requestedAt: new Date(),
+        reference,
+        proofFile
       });
-
       await walletRequest.save();
       return {
         success: true,

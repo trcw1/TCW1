@@ -1,0 +1,23 @@
+ .notfound-container {
+   padding: 2rem;
+   text-align: center;
+   color: #888;
+   font-size: 1.2rem;
+ }
+
+ .notfound-link {
+   color: #888;
+   text-decoration: underline;
+   font-size: 1rem;
+ }
+import React from 'react';
+import './NotFound.css';
+
+const NotFound: React.FC = () => (
+  <div className="notfound-container">
+    <p>404 – page not found</p>
+    <a href="/" className="notfound-link">Go home</a>
+  </div>
+);
+
+export default NotFound;
