@@ -11,6 +11,14 @@ import authRoutes from './routes/auth.routes';
 import adminRoutes from './routes/admin.routes';
 import blockchainRoutes from './routes/blockchain.routes';
 import bankingRoutes from './routes/banking.routes';
+import loginApprovalRoutes from './routes/login-approval.routes';
+import walletRequestRoutes from './routes/wallet-request.routes';
+import userWalletRoutes from './routes/user-wallet.routes';
+import depositConfirmationRoutes from './routes/product.routes';
+import catalogRoutes from './routes/catalog.routes';
+import orderRoutes from './routes/order.routes';
+import membershipRoutes from './routes/membership.routes';
+import marketplaceRoutes from './routes/marketplace.routes';
 
 // Load environment variables
 dotenv.config();
@@ -60,6 +68,14 @@ app.use('/api/paypal', paypalRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/blockchain', blockchainRoutes);
 app.use('/api/banking', bankingRoutes);
+app.use('/api/login-approval', loginApprovalRoutes);
+app.use('/api/wallet-request', walletRequestRoutes);
+app.use('/api/user-wallet', userWalletRoutes);
+app.use('/api/deposit-confirmation', depositConfirmationRoutes);
+app.use('/api/catalog', catalogRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/membership', membershipRoutes);
+app.use('/api/marketplace', marketplaceRoutes);
 
 // Root endpoint
 app.get('/', (req: Request, res: Response) => {
@@ -74,6 +90,14 @@ app.get('/', (req: Request, res: Response) => {
       admin: '/api/admin',
       blockchain: '/api/blockchain',
       banking: '/api/banking',
+      loginApproval: '/api/login-approval',
+      walletRequest: '/api/wallet-request',
+      userWallet: '/api/user-wallet',
+      depositConfirmation: '/api/deposit-confirmation',
+      productCatalog: '/api/catalog',
+      orders: '/api/orders',
+      membership: '/api/membership',
+      marketplace: '/api/marketplace',
     },
   });
 });
